@@ -1,4 +1,5 @@
 // Global Objects
+// https://nodejs.org/dist/latest-v16.x/docs/api/globals.html
 
 console.log(global);
 
