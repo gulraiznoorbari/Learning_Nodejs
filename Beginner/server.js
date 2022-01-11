@@ -4,6 +4,7 @@ const fs = require("fs");
 const server = http.createServer((req, res) => {
     console.log(req.url, req.method);
 
+    // setting response header:
     res.setHeader("Content-Type", "text/html");
     let path = "./views/";
     switch (req.url) {
@@ -18,6 +19,7 @@ const server = http.createServer((req, res) => {
             break;
     }
 
+    // sending a html file:
     fs.readFile(path, (err, data) => {
         if (err) {
             console.log(err);
