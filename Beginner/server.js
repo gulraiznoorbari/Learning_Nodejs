@@ -10,12 +10,15 @@ const server = http.createServer((req, res) => {
     switch (req.url) {
         case "/":
             path += "index.html";
+            res.statusCode = 200;
             break;
         case "/about":
             path += "about.html";
+            res.statusCode = 200;
             break;
         default:
             path += "404.html";
+            res.statusCode = 404;
             break;
     }
 
@@ -34,3 +37,11 @@ const server = http.createServer((req, res) => {
 server.listen(8080, "localhost", () => {
     console.log("Listening for requests on port 8080");
 });
+
+/* 
+    Status Codes:
+        - 200 = OK
+        - 301 = Resource Moved
+        - 404 = Not Found
+        - 500 = Internal Server Error
+*/
