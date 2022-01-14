@@ -10,6 +10,9 @@ app.set("view engine", "ejs");
 // listen for request on specified port number:
 app.listen(3000);
 
+// built-in express middleware for static files:
+app.use(express.static("static"))
+
 // morgan: request logging middleware
 app.use(morgan("dev"))
 
