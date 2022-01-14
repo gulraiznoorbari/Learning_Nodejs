@@ -11,19 +11,28 @@ app.listen(3000);
 
 // return view:
 app.get("/", (req, res) => {
-    res.render("index");
+    const blogs = [
+        { title: "Lorem, ipsum dolor", snippet: "Lorem ipsum dolor sit amet consectetur" },
+        { title: "Lorem, ipsum dolor", snippet: "Lorem ipsum dolor sit amet consectetur" },
+        { title: "Lorem, ipsum dolor", snippet: "Lorem ipsum dolor sit amet consectetur" },
+    ];
+    res.render("index", { title: "Home", blogs });
 });
 
 app.get("/about", (req, res) => {
-    res.render("about");
+    res.render("about", { title: "About" });
+});
+
+app.get("/blogs/create", (req, res) => {
+    res.render("create", { title: "Create a new blog" });
 });
 
 // redirect:
-app.get("/about-us", (req, res) => {
-    res.redirect("/about");
-});
+// app.get("/about-us", (req, res) => {
+//     res.redirect("/about");
+// });
 
 // 404 page / middleware function:
 app.use((req, res) => {
-    res.render("404");
+    res.status(404).render("404", { title: "404" });
 });
