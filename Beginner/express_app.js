@@ -1,4 +1,5 @@
 const express = require("express");
+const morgan = require("morgan");
 
 // Initiate Express App:
 const app = express();
@@ -9,6 +10,18 @@ app.set("view engine", "ejs");
 // listen for request on specified port number:
 app.listen(3000);
 
+// morgan: request logging middleware
+app.use(morgan("dev"))
+
+// middleware function:
+app.use((req, res, next) => {
+    console.log("---New Request Made---");
+    console.log("Host: ",req.hostname);
+    console.log("Path: ",req.path);
+    console.log("Method: ",req.method);
+    next();
+})
+
 // return view:
 app.get("/", (req, res) => {
     const blogs = [
@@ -18,6 +31,12 @@ app.get("/", (req, res) => {
     ];
     res.render("index", { title: "Home", blogs });
 });
+
+// middleware function:
+app.use((req, res, next) => {
+    console.log("---In the next middleware---");
+    next();
+})
 
 app.get("/about", (req, res) => {
     res.render("about", { title: "About" });
