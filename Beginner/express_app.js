@@ -4,6 +4,10 @@ const morgan = require("morgan");
 // Initiate Express App:
 const app = express();
 
+// connect mongodb:
+const db =
+    "mongodb+srv://gulraiz:gulraiz@nodejs.udaci.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+
 // register view engine:
 app.set("view engine", "ejs");
 
@@ -24,6 +28,7 @@ app.use((req, res, next) => {
     console.log("Method: ",req.method);
     next();
 })
+
 
 // return view:
 app.get("/", (req, res) => {
@@ -50,9 +55,9 @@ app.get("/blogs/create", (req, res) => {
 });
 
 // redirect:
-// app.get("/about-us", (req, res) => {
-//     res.redirect("/about");
-// });
+app.get("/about-us", (req, res) => {
+    res.redirect("/about");
+});
 
 // 404 page / middleware function:
 app.use((req, res) => {
