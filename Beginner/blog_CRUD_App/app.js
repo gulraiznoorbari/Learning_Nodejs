@@ -19,12 +19,13 @@ app.set("view engine", "ejs");
 
 // built-in express middleware for static files:
 app.use(express.static("static"));
+// takes all the url encoded data:
+app.use(express.urlencoded({ extended: true }));
 // morgan: request logging middleware
 app.use(morgan("dev"));
 
 // middleware function:
 app.use((req, res, next) => {
-    console.log("---New Request Made---");
     res.locals.path = req.path;
     next();
 });
@@ -70,6 +71,18 @@ app.get("/all-blogs", (req, res) => {
         .sort({ createdAt: -1 })
         .then((result) => {
             res.render("index", { title: "All Blogs", blogs: result });
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+});
+
+// send POST request (send data to the database):
+app.post("/blogs", (req, res) => {
+    const blog = new blogSchema(req.body);
+    blog.save()
+        .then((result) => {
+            res.redirect("/");
         })
         .catch((error) => {
             console.log(error);
