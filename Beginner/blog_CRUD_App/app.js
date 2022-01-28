@@ -89,6 +89,16 @@ app.post("/blogs", (req, res) => {
         });
 });
 
+app.get("/blogs/:id", (req, res) => {
+    const id = req.params.id;
+    blogSchema
+        .findById(id)
+        .then((result) => {
+            res.render("details", { blog: result, title: "Blog Details" });
+        })
+        .catch((error) => console.log(error));
+});
+
 // 404 page / middleware function:
 app.use((req, res) => {
     res.status(404).render("404", { title: "404" });
