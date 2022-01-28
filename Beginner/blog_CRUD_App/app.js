@@ -99,6 +99,18 @@ app.get("/blogs/:id", (req, res) => {
         .catch((error) => console.log(error));
 });
 
+app.delete("/blogs/:id", (req, res) => {
+    const id = req.params.id;
+    blogSchema
+        .findByIdAndDelete(id)
+        .then((result) => {
+            res.json({ redirect: "/all-blogs" });
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+});
+
 // 404 page / middleware function:
 app.use((req, res) => {
     res.status(404).render("404", { title: "404" });
