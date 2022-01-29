@@ -1,7 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
-const blogSchema = require("./models/blog");
+const blogRoutes = require("./routes/blogRoutes");
 
 // Initiate Express App:
 const app = express();
@@ -30,25 +30,9 @@ app.use((req, res, next) => {
     next();
 });
 
-// save a blog:
-app.get("/add-blog", (req, res) => {
-    const blog = new blogSchema({
-        title: "new blog 2",
-        snippet: "Lorem ipsum dolor sit amet consectetur adipisicing elit",
-        body: "Lorem ipsum dolor sit",
-    });
-    blog.save()
-        .then((result) => {
-            res.send(result);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-});
-
 // return view:
 app.get("/", (req, res) => {
-    res.redirect("/all-blogs");
+    res.redirect("/blogs");
 });
 
 app.get("/about", (req, res) => {
@@ -60,56 +44,8 @@ app.get("/about-us", (req, res) => {
     res.redirect("/about");
 });
 
-app.get("/blogs/create", (req, res) => {
-    res.render("create", { title: "Create a new blog" });
-});
-
-// get all blogs:
-app.get("/all-blogs", (req, res) => {
-    blogSchema
-        .find()
-        .sort({ createdAt: -1 })
-        .then((result) => {
-            res.render("index", { title: "All Blogs", blogs: result });
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-});
-
-// send POST request (send data to the database):
-app.post("/blogs", (req, res) => {
-    const blog = new blogSchema(req.body);
-    blog.save()
-        .then((result) => {
-            res.redirect("/");
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-});
-
-app.get("/blogs/:id", (req, res) => {
-    const id = req.params.id;
-    blogSchema
-        .findById(id)
-        .then((result) => {
-            res.render("details", { blog: result, title: "Blog Details" });
-        })
-        .catch((error) => console.log(error));
-});
-
-app.delete("/blogs/:id", (req, res) => {
-    const id = req.params.id;
-    blogSchema
-        .findByIdAndDelete(id)
-        .then((result) => {
-            res.json({ redirect: "/all-blogs" });
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-});
+// blog routes:
+app.use("/blogs", blogRoutes);
 
 // 404 page / middleware function:
 app.use((req, res) => {
