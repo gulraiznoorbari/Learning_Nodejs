@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+require("dotenv").config();
 const mongoose = require("mongoose");
 const blogRoutes = require("./routes/blogRoutes");
 
@@ -8,9 +9,7 @@ const app = express();
 
 // connect mongodb:
 mongoose
-    .connect(
-        "mongodb+srv://gulraiz:gulraiz@nodejs.udaci.mongodb.net/nodejs?retryWrites=true&w=majority",
-    )
+    .connect(process.env.DATABASE_URI)
     .then((result) => app.listen(3000))
     .catch((error) => console.log(error));
 
