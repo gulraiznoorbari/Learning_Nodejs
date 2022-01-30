@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 // morgan: request logging middleware
 app.use(morgan("dev"));
 
-// middleware function:
+// custom middleware function:
 app.use((req, res, next) => {
     res.locals.path = req.path;
     next();
